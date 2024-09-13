@@ -14,16 +14,41 @@ import { handleNumberClick } from "./lib/handleActions";
 
 function App() {
   const [currentNumber, setCurrentNumber] = useState("0");
-  const [isNumberFloat, setIsNumberFloat] = useState(false);
+  const [firstNumber, setFirstNumber] = useState("0");
+  const [operation, setOperation] = useState(null);
+  const displayValue = operation !== null ? firstNumber : currentNumber;
 
-  const numberClick = (number) => () =>
-    setCurrentNumber(handleNumberClick(currentNumber, number));
-  const reset = () => setCurrentNumber("0");
-  const makeFloat = () => {
-    if (!isNumberFloat) {
-      setIsNumberFloat(true);
-      setCurrentNumber(currentNumber + ".");
+  const numberClick = (number) => () => {
+    if (operation !== null) {
+      setFirstNumber(handleNumberClick(firstNumber, number));
+    } else {
+      setCurrentNumber(handleNumberClick(currentNumber, number));
     }
+    console.log({ currentNumber, firstNumber, operation, displayValue });
+  };
+
+  const reset = () => {
+    setCurrentNumber("0");
+    setFirstNumber("0");
+    setOperation(null);
+  };
+
+  const makeFloat = () => {
+    const isNumberFloat = displayValue.includes(".");
+    if (!isNumberFloat) {
+      if (operation !== null) {
+        setFirstNumber(firstNumber + ".");
+      } else {
+        setCurrentNumber(currentNumber + ".");
+      }
+    }
+  };
+
+  const setOperator = (operator) => () => {
+    console.log(operator);
+    setOperation(operator);
+    setFirstNumber("0");
+    console.log({ currentNumber, firstNumber, operation, displayValue });
   };
 
   return (
@@ -41,7 +66,7 @@ function App() {
                     fontSize="3xl"
                     fontWeight={700}
                   >
-                    {currentNumber}
+                    {displayValue}
                   </Text>
                 </Box>
               </GridItem>
@@ -61,7 +86,9 @@ function App() {
                 </Button>
               </GridItem>
               <GridItem>
-                <Button w="100%">/</Button>
+                <Button onClick={setOperator("/")} w="100%">
+                  /
+                </Button>
               </GridItem>
 
               <GridItem>
@@ -80,7 +107,9 @@ function App() {
                 </Button>
               </GridItem>
               <GridItem>
-                <Button w="100%">*</Button>
+                <Button onClick={setOperator("*")} w="100%">
+                  *
+                </Button>
               </GridItem>
 
               <GridItem>
@@ -99,7 +128,9 @@ function App() {
                 </Button>
               </GridItem>
               <GridItem>
-                <Button w="100%">-</Button>
+                <Button onClick={setOperator("-")} w="100%">
+                  -
+                </Button>
               </GridItem>
 
               <GridItem colSpan={2}>
@@ -113,7 +144,9 @@ function App() {
                 </Button>
               </GridItem>
               <GridItem>
-                <Button w="100%">+</Button>
+                <Button onClick={setOperator("+")} w="100%">
+                  +
+                </Button>
               </GridItem>
               <GridItem colSpan={2}>
                 <Button w="100%" colorScheme="purple" onClick={reset}>
