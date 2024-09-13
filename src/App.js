@@ -51,7 +51,7 @@ function App() {
   const calculateResult = () => {
     const result = performOperation(currentNumber, firstNumber, operation);
     setOperation(null);
-    setCurrentNumber(result.toString());
+    setCurrentNumber(result.toString().slice(0, 16));
     setFirstNumber("0");
   };
 

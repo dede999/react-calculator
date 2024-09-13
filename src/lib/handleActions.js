@@ -5,7 +5,7 @@ export function handleNumberClick(currentNumberString, number) {
   } else if (currentNumberString === "0") {
     return number;
   } else {
-    return currentNumberString + number;
+    return (currentNumberString + number).slice(0, 16);
   }
 }
 
