@@ -8,3 +8,21 @@ export function handleNumberClick(currentNumberString, number) {
     return currentNumberString + number;
   }
 }
+
+// Method to perform the operation
+export function performOperation(firstNumber, secondNumber, operator) {
+  const first = Number(firstNumber);
+  const second = Number(secondNumber);
+  switch (operator) {
+    case "+":
+      return first + second;
+    case "-":
+      return first - second;
+    case "*":
+      return first * second;
+    case "/":
+      return first / second;
+    default:
+      return first;
+  }
+}

@@ -10,7 +10,7 @@ import {
 import { useState } from "react";
 import "./App.css";
 import "./index.css";
-import { handleNumberClick } from "./lib/handleActions";
+import { handleNumberClick, performOperation } from "./lib/handleActions";
 
 function App() {
   const [currentNumber, setCurrentNumber] = useState("0");
@@ -24,7 +24,6 @@ function App() {
     } else {
       setCurrentNumber(handleNumberClick(currentNumber, number));
     }
-    console.log({ currentNumber, firstNumber, operation, displayValue });
   };
 
   const reset = () => {
@@ -45,10 +44,15 @@ function App() {
   };
 
   const setOperator = (operator) => () => {
-    console.log(operator);
     setOperation(operator);
     setFirstNumber("0");
-    console.log({ currentNumber, firstNumber, operation, displayValue });
+  };
+
+  const calculateResult = () => {
+    const result = performOperation(currentNumber, firstNumber, operation);
+    setOperation(null);
+    setCurrentNumber(result.toString());
+    setFirstNumber("0");
   };
 
   return (
@@ -154,7 +158,7 @@ function App() {
                 </Button>
               </GridItem>
               <GridItem colSpan={2}>
-                <Button w="100%" colorScheme="teal">
+                <Button onClick={calculateResult} w="100%" colorScheme="teal">
                   =
                 </Button>
               </GridItem>
