@@ -14,9 +14,17 @@ import { handleNumberClick } from "./lib/handleActions";
 
 function App() {
   const [currentNumber, setCurrentNumber] = useState("0");
+  const [isNumberFloat, setIsNumberFloat] = useState(false);
+
   const numberClick = (number) => () =>
     setCurrentNumber(handleNumberClick(currentNumber, number));
   const reset = () => setCurrentNumber("0");
+  const makeFloat = () => {
+    if (!isNumberFloat) {
+      setIsNumberFloat(true);
+      setCurrentNumber(currentNumber + ".");
+    }
+  };
 
   return (
     <div className="App">
@@ -95,10 +103,14 @@ function App() {
               </GridItem>
 
               <GridItem colSpan={2}>
-                <Button w="100%">0</Button>
+                <Button onClick={numberClick("0")} w="100%">
+                  0
+                </Button>
               </GridItem>
               <GridItem>
-                <Button w="100%">.</Button>
+                <Button onClick={makeFloat} w="100%">
+                  .
+                </Button>
               </GridItem>
               <GridItem>
                 <Button w="100%">+</Button>
